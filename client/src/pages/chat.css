@@ -1,0 +1,17 @@
+.foreign{
+    margin: 10px;
+}
+
+.own{
+    background-color: lightcoral;
+    margin:10px;
+}
+
+.system{
+    background-color: lightblue;
+    margin:10px;
+}
+
+span {
+    margin: 10px;
+}
