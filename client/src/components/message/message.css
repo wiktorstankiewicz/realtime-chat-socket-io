@@ -8,6 +8,15 @@
     margin: 0;
 }
 
+.message.foreign .nickname,
+.message.foreign .time {
+    margin-left: 10px;
+}
+
+.message.own .nickname,
+.message.own .time {
+    margin-right: 10px;
+}
 
 
 .message .message-body {

@@ -10,6 +10,12 @@ function Chat() {
   const [room, setRoom] = useState(useLocation().state.room);
   const [messageList, setMessageList] = useState([]);
   const navigate = useNavigate();
+  const messageContainer = useRef();
+  function scrollToBottom() {
+    setTimeout(() => 
+      messageContainer.current.scrollTop = messageContainer.current.scrollHeight
+    , 100);
+  }
   useEffect(() => {
     socket = io("http://localhost:8000");
     socket.on("connect", () => {
@@ -22,13 +28,18 @@ function Chat() {
       time: Date.now(),
     });
 
-    socket.on("receive-history", (history) => setMessageList(history));
+    socket.on("receive-history", (history) => {
+      setMessageList(history)
+      scrollToBottom();
+    });
 
     socket.on("receive-message", (message) => {
       setMessageList((prev) => [...prev, message]);
+      scrollToBottom();
     });
     socket.on("receive-is-typing", (isTypingDict) => {
       setIsTypingDict(isTypingDict);
+      scrollToBottom();
     });
 
     socket.emit("is-not-typing", ownNickName);
@@ -36,6 +47,7 @@ function Chat() {
     document.addEventListener('keydown', (e) => {
       if (e.key === "Enter") {
         sendMessage()
+        scrollToBottom();
       }
     })
 
@@ -65,7 +77,8 @@ function Chat() {
       { nickName: ownNickName, message: currentMessage, time: time },
     ]);
     message.current.value = "";
-  }
+    scrollToBottom();
+    }
 
   function handleOnFocus(e) {
     e.preventDefault();
@@ -87,16 +100,25 @@ function Chat() {
     <>
     <nav>
       <div className="nav-wrapper blue">
-        <a style={{"cursor": "pointer"}} onClick={handleExit} className="brand-logo center">Super chat</a>
+        <a style={{"cursor": "pointer"}} onClick={handleExit} className="brand-logo center">ChatLPG</a>
       </div>
     </nav>
     <div className="container app-container">
-      <h5>
-        Logged in to room {room} as: <strong>{ownNickName}</strong>
-      </h5>
+      <div className="row">
+        <h5 className="col s8">
+          Logged in to room {room} as: <strong>{ownNickName}</strong>
+        </h5>
+        <a
+            onClick={handleExit} 
+            className="waves-effect waves-light btn red col s2 right"
+          >
+            <i className="material-icons right">exit_to_app</i>
+            Exit chat
+          </a>
+      </div>
       <div className="chat-container">
         <div className="messages-container blue lighten-5">
-          <ul>
+          <ul ref={messageContainer}>
             {messageList?.map((message, key) =>
             <li key={key}>
               <Message {...message} ownNickName={ownNickName}/>
@@ -105,7 +127,7 @@ function Chat() {
             {Object.entries(isTypingDict).map(([nickName, isTyping]) => {
               if (isTyping) {
                 return (
-                  <li>
+                  <li className="is-typing">
                     <span>{nickName} is typing...</span>
                   </li>
                 );

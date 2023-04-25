@@ -18,9 +18,14 @@
     height: 100%;
     overflow: auto;
     margin: 0;
+    scroll-behavior: smooth;
 }
 
 .inputs-container {
     padding-left: 30px;
     padding-right: 30px;
+}
+
+.is-typing {
+    font-weight: bolder;
 }

@@ -23,20 +23,20 @@ function Root() {
     <div className="App">
     <nav>
       <div className="nav-wrapper blue">
-        <a className="brand-logo center">Super chat</a>
+        <a className="brand-logo center">Chat</a>
       </div>
     </nav>
       <div className="container app-container">
         <div className="row">
           <div className="input-field col s6">
             <input id="nickname" type="text" className="validate" ref={nickName} />
-            <label for="nickname">Enter your nickname</label>
+            <label htmlFor="nickname">Enter your nickname</label>
           </div>
         </div>
         <div className="row">
           <div className="input-field col s6">
             <input id="room" type="number" className="validate" ref={room} />
-            <label for="room">Enter room number</label>
+            <label htmlFor="room">Enter room number</label>
           </div>
         </div>
         <div className="row">
