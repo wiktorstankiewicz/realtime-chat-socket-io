@@ -33,6 +33,12 @@ function Chat() {
 
     socket.emit("is-not-typing", ownNickName);
 
+    document.addEventListener('keydown', (e) => {
+      if (e.key === "Enter") {
+        sendMessage()
+      }
+    })
+
     window.addEventListener("beforeunload", (ev) => {
       return () => {
         
