@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { io } from "socket.io-client";
 import "./chat.css";
+import Message from "../components/message/message";
 let socket
 function Chat() {
   const [ownNickName, setOwnNickName] = useState(useLocation().state.nickName);
@@ -76,55 +77,60 @@ function Chat() {
     navigate("/");
   }
 
-  function renderMessage(nickName, message, time, system) {
-    const date = new Date(time);
-    const dateString = `${date.getDate()}.${date.getMonth()}.${date.getFullYear()} at ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-    if (!system) {
-      return (
-        <li className={nickName == ownNickName ? "own" : "foreign"}>
-          <span>{nickName}</span>
-          <span> {message}</span>
-          <span>{dateString}</span>
-        </li>
-      );
-    }
-    return (
-      <li className={"system"}>
-        <span>{message}</span>
-        <span>{dateString} </span>
-      </li>
-    );
-  }
-
   return (
-    <div>
-      <span>
-        Nickname: {ownNickName} Room: {room}
-      </span>
-      <ul>
-        {messageList?.map(({ nickName, message, time, system }) =>
-          renderMessage(nickName, message, time, system)
-        )}
-        {Object.entries(isTypingDict).map(([nickName, isTyping]) => {
-          if (isTyping) {
-            return (
-              <li>
-                <span>{nickName} is typing...</span>
-              </li>
-            );
-          }
-        })}
-      </ul>
-      <input
-        type="text"
-        onFocus={handleOnFocus}
-        onBlur={handleOnBlur}
-        ref={message}
-      />
-      <button onClick={sendMessage}>Send</button>
-      <button onClick={handleExit}>Exit</button>
-      <button onClick={() => socket.emit("print")}>print</button>
+    <>
+    <nav>
+      <div className="nav-wrapper blue">
+        <a style={{"cursor": "pointer"}} onClick={handleExit} className="brand-logo center">Super chat</a>
+      </div>
+    </nav>
+    <div className="container app-container">
+      <h5>
+        Logged in to room {room} as: <strong>{ownNickName}</strong>
+      </h5>
+      <div className="chat-container">
+        <div className="messages-container blue lighten-5">
+          <ul>
+            {messageList?.map((message, key) =>
+            <li key={key}>
+              <Message {...message} ownNickName={ownNickName}/>
+            </li>
+            )}
+            {Object.entries(isTypingDict).map(([nickName, isTyping]) => {
+              if (isTyping) {
+                return (
+                  <li>
+                    <span>{nickName} is typing...</span>
+                  </li>
+                );
+              }
+            })}
+          </ul>
+        </div>
+        <div className="inputs-container row valign-wrapper">
+          <div className="input-field col s10">
+            <input 
+              placeholder="Type message..." 
+              id="first_name" 
+              type="text" 
+              className="validate"
+              onFocus={handleOnFocus}
+              onBlur={handleOnBlur}
+              ref={message} 
+            />
+          </div>
+          <a
+            onClick={sendMessage} 
+            className="waves-effect waves-light btn blue col s2"
+          >
+            <i className="material-icons right">send</i>
+            Send
+          </a>
+        </div>
+      </div>
+      {/* <button onClick={() => socket.emit("print")}>print</button> */}
     </div>
+    </>
   );
 }
 

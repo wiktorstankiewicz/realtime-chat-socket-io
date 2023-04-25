@@ -22,26 +22,26 @@ function Root() {
   return (
     <div className="App">
     <nav>
-      <div class="nav-wrapper blue">
-        <a href="#" class="brand-logo center">Super chat</a>
+      <div className="nav-wrapper blue">
+        <a className="brand-logo center">Super chat</a>
       </div>
     </nav>
       <div className="container app-container">
         <div className="row">
-          <div class="input-field col s6">
-            <input id="nickname" type="text" class="validate" ref={nickName} />
+          <div className="input-field col s6">
+            <input id="nickname" type="text" className="validate" ref={nickName} />
             <label for="nickname">Enter your nickname</label>
           </div>
         </div>
         <div className="row">
-          <div class="input-field col s6">
-            <input id="room" type="number" class="validate" ref={room} />
+          <div className="input-field col s6">
+            <input id="room" type="number" className="validate" ref={room} />
             <label for="room">Enter room number</label>
           </div>
         </div>
         <div className="row">
-          <a onClick={joinRoom} class="waves-effect waves-light btn blue">
-            <i class="material-icons left">group_add</i>
+          <a onClick={joinRoom} className="waves-effect waves-light btn blue">
+            <i className="material-icons left">group_add</i>
             Join channel
           </a>
         </div>

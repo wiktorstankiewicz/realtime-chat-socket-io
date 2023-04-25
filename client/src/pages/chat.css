@@ -1,17 +1,26 @@
-.foreign{
-    margin: 10px;
-}
-
-.own{
-    background-color: lightcoral;
-    margin:10px;
-}
-
-.system{
-    background-color: lightblue;
-    margin:10px;
-}
+@import "../components/message/message.css";
 
 .app-container {
     margin-top: 4rem;
+}
+
+.chat-container {
+    height: 75vh;
+}
+
+.messages-container {
+    height: 80%;
+    padding: 30px;
+    border-radius: 30px;
+}
+
+.messages-container ul {
+    height: 100%;
+    overflow: auto;
+    margin: 0;
+}
+
+.inputs-container {
+    padding-left: 30px;
+    padding-right: 30px;
 }
